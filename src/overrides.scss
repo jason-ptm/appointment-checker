@@ -1,0 +1,26 @@
+.MuiInputBase-root {
+  &::before {
+    border-bottom-color: rgba(255, 255, 255, 0.394) !important;
+  }
+
+  &::after {
+    border-bottom-color: #646cff !important;
+  }
+}
+
+.MuiFilledInput-input {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.MuiFilledInput-input.Mui-disabled {
+  color: rgba(255, 255, 255, 0.447) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.447) !important;
+}
+
+.MuiFormLabel-root {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: #646cff !important;
+}
