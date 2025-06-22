@@ -6,6 +6,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../context/actions/auth";
 import { useContext } from "../context/useContenxt";
+import { USER_TYPE } from "../utils/constants";
 import { Sidebar } from "./Sidebar";
 
 interface SidebarLayoutProps {
@@ -19,7 +20,8 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { dispatch } = useContext();
+  const { state, dispatch } = useContext();
+  const { user } = state.data;
 
   const handleLogout = () => {
     logout(dispatch);
@@ -27,18 +29,38 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
   };
 
   const sidebarItems = [
-    {
-      text: "Dashboard",
-      icon: <DashboardIcon />,
-      onClick: () => navigate("/dashboard"),
-      active: location.pathname === "/dashboard",
-    },
-    {
-      text: "Citas",
-      icon: <CalendarTodayIcon />,
-      onClick: () => navigate("/appointments"),
-      active: location.pathname === "/appointments",
-    },
+    // Only show dashboard to users who are not of type "USER"
+    ...(user.type !== USER_TYPE.USER
+      ? [
+          {
+            text: "Dashboard",
+            icon: <DashboardIcon />,
+            onClick: () => navigate("/dashboard"),
+            active: location.pathname === "/dashboard",
+          },
+        ]
+      : []),
+    // Only show appointments to users who are not of type "USER"
+    ...(user.type === USER_TYPE.USER
+      ? [
+          {
+            text: "Citas",
+            icon: <CalendarTodayIcon />,
+            onClick: () => navigate("/appointments"),
+            active: location.pathname === "/appointments",
+          },
+        ]
+      : []),
+    ...(user.type === USER_TYPE.DOCTOR
+      ? [
+          {
+            text: "Mis Citas",
+            icon: <CalendarTodayIcon />,
+            onClick: () => navigate("/my-appointments"),
+            active: location.pathname === "/my-appointments",
+          },
+        ]
+      : []),
     {
       text: "Notificaciones",
       icon: <NotificationsIcon />,

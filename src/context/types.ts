@@ -1,3 +1,5 @@
+import type { DashboardResponse } from "../services/dashboard";
+
 export interface IStateUser {
   accessToken?: string;
   user: {
@@ -28,6 +30,7 @@ export interface IStateUser {
       endDate: string;
     }[];
   }[];
+  dashboard?: DashboardResponse;
 }
 
 export type State = {
@@ -35,6 +38,7 @@ export type State = {
   isLoadingAppointments: boolean;
   isLoadingSpecialties: boolean;
   isLoadingDoctors: boolean;
+  isLoadingDashboard: boolean;
   error: {
     message: string;
   };
@@ -46,11 +50,13 @@ export enum ActionType {
   SET_LOADING_APPOINTMENTS = "SET_LOADING_APPOINTMENTS",
   SET_LOADING_SPECIALTIES = "SET_LOADING_SPECIALTIES",
   SET_LOADING_DOCTORS = "SET_LOADING_DOCTORS",
+  SET_LOADING_DASHBOARD = "SET_LOADING_DASHBOARD",
   SET_ERROR = "SET_ERROR",
   SET_DATA = "SET_DATA",
   SET_APPOINTMENTS = "SET_APPOINTMENTS",
   SET_SPECIALTIES = "SET_SPECIALTIES",
   SET_DOCTORS = "SET_DOCTORS",
+  SET_DASHBOARD = "SET_DASHBOARD",
   UPDATE_APPOINTMENT_STATUS = "UPDATE_APPOINTMENT_STATUS",
   CREATE_APPOINTMENT = "CREATE_APPOINTMENT",
   LOGOUT = "LOGOUT",
@@ -65,6 +71,7 @@ export type Action = {
     | IStateUser["appointments"]
     | IStateUser["specialties"]
     | IStateUser["doctors"]
+    | DashboardResponse
     | { appointmentId: string; status: string }
     | null;
 };

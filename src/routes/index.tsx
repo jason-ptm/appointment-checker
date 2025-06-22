@@ -4,6 +4,8 @@ import { AppointmentList } from "../pages/appointment";
 import { Dashboard } from "../pages/dashboard";
 import { Notifications } from "../pages/notifications";
 import { Login } from "../pages/login";
+import { USER_TYPE } from "../utils/constants";
+import { DoctorAppointmentsList } from "../components/DoctorAppointmentsList";
 
 export const RouteWrapper = () => {
   return (
@@ -15,7 +17,7 @@ export const RouteWrapper = () => {
         <Route
           path="/dashboard"
           element={
-            <PrivateRoute>
+            <PrivateRoute blackListTypes={[USER_TYPE.USER]}>
               <Dashboard />
             </PrivateRoute>
           }
@@ -26,6 +28,15 @@ export const RouteWrapper = () => {
           element={
             <PrivateRoute>
               <AppointmentList />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/my-appointments"
+          element={
+            <PrivateRoute>
+              <DoctorAppointmentsList />
             </PrivateRoute>
           }
         />

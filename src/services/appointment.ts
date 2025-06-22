@@ -1,7 +1,10 @@
 import type { IStateUser } from "../context/types";
 import type { Error } from "../model/error";
 import { getAxiosWithToken } from "../utils/getAxios";
-import { transformAppointmentResponse } from "../utils/transforms/appointment";
+import {
+  transformAppointmentResponse,
+  transformDoctorAppointmentsResponse,
+} from "../utils/transforms/appointment";
 
 // API Contract type for appointment status update response
 export interface AppointmentStatusUpdateResponse {
@@ -26,6 +29,23 @@ export interface CreateAppointmentResponse {
   patientId: string;
   doctorId: string;
   specialityId: string;
+}
+
+// API Contract type for communication creation request
+export interface CreateCommunicationRequest {
+  appointmentId: string;
+  type: string;
+  startDate: string;
+  status: string;
+}
+
+// API Contract type for communication creation response
+export interface CreateCommunicationResponse {
+  id: string;
+  appointmentId: string;
+  type: string;
+  startDate: string;
+  status: string;
 }
 
 export const getAppointmentsForUser = async (
@@ -91,6 +111,64 @@ export const createAppointment = async (
     return {
       error: {
         message: "Error al crear la cita",
+      },
+    };
+  }
+};
+
+export const getDoctorAppointments = async (
+  doctorId: string
+): Promise<
+  | {
+      doctor: { id: string; name: string };
+      totalAppointments: number;
+      appointments: {
+        id: string;
+        date: string;
+        status: string;
+        communicationCount: number;
+        patientName: string;
+        specialityName: string;
+      }[];
+    }
+  | Error
+> => {
+  try {
+    const axios = getAxiosWithToken();
+
+    const response = await axios.get(
+      `/users/doctor/${doctorId}/all-appointments`
+    );
+
+    const transformedData = transformDoctorAppointmentsResponse(response.data);
+
+    return transformedData;
+  } catch (error: unknown) {
+    console.log("🚀 ~ getDoctorAppointments ~ error:", error);
+    return {
+      error: {
+        message: "Error al obtener las citas del doctor",
+      },
+    };
+  }
+};
+
+export const createCommunication = async (
+  communicationData: CreateCommunicationRequest
+): Promise<{ communication: CreateCommunicationResponse } | Error> => {
+  try {
+    const axios = getAxiosWithToken();
+
+    const response = await axios.post(`/communication`, communicationData);
+
+    return {
+      communication: response.data,
+    };
+  } catch (error: unknown) {
+    console.log("🚀 ~ createCommunication ~ error:", error);
+    return {
+      error: {
+        message: "Error al crear la comunicación",
       },
     };
   }

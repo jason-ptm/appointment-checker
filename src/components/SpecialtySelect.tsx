@@ -42,7 +42,7 @@ export const SpecialtySelect = ({
     if (specialties.length === 0 && !isLoadingSpecialties) {
       fetchSpecialties(dispatch);
     }
-  }, [dispatch, specialties.length, isLoadingSpecialties]);
+  }, [dispatch, specialties?.length, isLoadingSpecialties]);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     onChange(event.target.value);
@@ -78,7 +78,7 @@ export const SpecialtySelect = ({
         <MenuItem value="">
           <em>Seleccionar especialidad</em>
         </MenuItem>
-        {specialties.map((specialty) => (
+        {specialties?.map((specialty) => (
           <MenuItem key={specialty.id} value={specialty.id}>
             {specialty.name}
           </MenuItem>

@@ -1,12 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
-import {
-  TextField,
-  FormHelperText,
-  Box,
-  Typography,
-  Chip,
-  Alert,
-} from "@mui/material";
+import { Alert, Box, Chip, TextField, Typography } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 import { useContext } from "../context/useContenxt";
 
 interface DoctorCalendarProps {
@@ -176,7 +169,7 @@ export const DoctorCalendar = ({
     }
 
     // Buscar el primer slot disponible después de ahora
-    let testTime = new Date(now);
+    const testTime = new Date(now);
     testTime.setHours(testTime.getHours() + 1);
     testTime.setMinutes(0);
     testTime.setSeconds(0);

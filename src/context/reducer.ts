@@ -5,6 +5,7 @@ export const initialState: State = {
   isLoadingAppointments: false,
   isLoadingSpecialties: false,
   isLoadingDoctors: false,
+  isLoadingDashboard: false,
   error: {
     message: "",
   },
@@ -43,6 +44,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         isLoadingDoctors: Boolean(action.payload),
+      };
+    case ActionType.SET_LOADING_DASHBOARD:
+      return {
+        ...state,
+        isLoadingDashboard: Boolean(action.payload),
       };
     case ActionType.SET_ERROR:
       return {
@@ -105,6 +111,21 @@ export const reducer = (state: State, action: Action): State => {
           data: {
             ...state.data,
             doctors: action.payload as State["data"]["doctors"],
+          },
+        };
+      }
+      return state;
+    case ActionType.SET_DASHBOARD:
+      if (
+        action.payload &&
+        typeof action.payload === "object" &&
+        "totalAppointments" in action.payload
+      ) {
+        return {
+          ...state,
+          data: {
+            ...state.data,
+            dashboard: action.payload as State["data"]["dashboard"],
           },
         };
       }
