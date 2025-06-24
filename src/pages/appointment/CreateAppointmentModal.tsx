@@ -90,7 +90,6 @@ export const CreateAppointmentModal = () => {
   };
 
   const isFormValid = () => {
-    console.log("🚀 ~ isFormValid ~ formData:", formData, validationErrors);
     return (
       formData.specialityId && formData.doctorId && formData.appointmentDate
     );

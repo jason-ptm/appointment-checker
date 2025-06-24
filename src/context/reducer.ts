@@ -101,11 +101,7 @@ export const reducer = (state: State, action: Action): State => {
       }
       return state;
     case ActionType.SET_DOCTORS:
-      if (
-        Array.isArray(action.payload) &&
-        action.payload.length > 0 &&
-        "name" in action.payload[0]
-      ) {
+      if (Array.isArray(action.payload)) {
         return {
           ...state,
           data: {
